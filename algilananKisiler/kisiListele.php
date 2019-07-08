@@ -40,12 +40,14 @@
                                             <select class=" form-control" name="sinif" placeholder="Sınıf"
                                                 id="exampleInputsinif" required>
                                                 <?php
-                                                $query = $db->query("SELECT * FROM dersler", PDO::FETCH_ASSOC);
+                                                $query = $db->query("SELECT * FROM sinif", PDO::FETCH_ASSOC);
                                                 if ($query->rowCount()) {
-                                                    foreach ($query as $row) {?>
-
-                                                <option value="<?php echo $row["ders_adi"] ?>">
-                                                    <?php echo $row["ders_adi"] ?> </option>
+                                                    foreach ($query as $row) {
+                                                        $sinif= $row["sinif_ad"];
+                                                    ?>
+                                                
+                                                <option value="<?php echo $sinif ?>">
+                                                    <?php echo $row["sinif_ad"]; ?> </option>
                                                 <?php
                                                     }
                                                 }?>
@@ -60,53 +62,46 @@
 
                                 </form>
                                 <?php 
-                                if(isset($_POST['listele'])){?>
+                                if(isset($_POST['listele'])){
+
+                                    $Sor = $db->prepare("SELECT * from yoklama");
+                                            $Sor->execute();
+
+                                            while ($Cek = $Sor->fetch(PDO::FETCH_ASSOC)) {
+                                                if($Cek['sinif_adi']==$_POST['sinif']){
+                                                ?>
+                                    
                                 <br>
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>IBEACON ID</th>
-                                            <th>IBEACON ADI</th>
-                                            <th>IBEACON BİNA</th>
-                                            <th>IBEACON KAT</th> 
-                                            <th>İŞLEM</th>
+                                            <th>SINIF</th>
+                                            <th>ÖĞRENCİ NO</th>
+                                            <th>İSİM</th>
+                                            <th>TARİH</th> 
+                                            
 
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        <?php
-                                            $Sor = $db->prepare("SELECT * from ibeaconlar");
-                                            $Sor->execute();
-
-                                            while ($Cek = $Sor->fetch(PDO::FETCH_ASSOC)) {?>
+                                        
+                                            
                                         <tr>
                                             <td><?php echo $Cek['id'] ?></td>
-                                            <td><?php echo $Cek['ibeacon_MAC'] ?></td>
-                                            <td><?php echo $Cek['ibeacon_AD'] ?></td>
-                                            <td><?php echo $Cek['ibeacon_BINA'] ?></td>
-                                            <td><?php echo $Cek['ibeacon_KAT'] ?></td>
+                                            <td><?php echo $Cek['sinif_adi'] ?></td>
+                                            <td><?php echo $Cek['ogr_no'] ?></td>
+                                            <td><?php echo $Cek['isim'] ?></td>
+                                            <td><?php echo $Cek['tarih'] ?></td>
                                             
-
-                                            <td>
-                                            <a href="ibeaconGuncelle.php?ID=<?php echo $Cek['id'] ?>" class="btn btn-primary btn-circle">
-                                                <i class="fas fa-pen"></i>
-                                            </a> 
-                                            <a href="ibeaconSil.php?ID=<?php echo $Cek['id'] ?>" class="btn btn-danger btn-circle" onClick="return confirm('Bu ibeaconu silmek istediğinize emin misiniz?')">
-                                                <i class="fas fa-trash"></i>
-                                            </a>    
-                                               
-                                            
-
-                                            </td>
 
                                         </tr>
                                         <?php }?>
                                     </tbody>
                                 </table>
 
-                                <?php }?>
+                                <?php }}?>
                                 
                             </div>
                         </div>
