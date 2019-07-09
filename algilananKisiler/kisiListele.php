@@ -40,17 +40,17 @@
                                             <select class=" form-control" name="sinif" placeholder="Sınıf"
                                                 id="exampleInputsinif" required>
                                                 <?php
-                                                $query = $db->query("SELECT * FROM sinif", PDO::FETCH_ASSOC);
-                                                if ($query->rowCount()) {
-                                                    foreach ($query as $row) {
-                                                        $sinif= $row["sinif_ad"];
-                                                    ?>
-                                                
+$query = $db->query("SELECT * FROM sinif", PDO::FETCH_ASSOC);
+if ($query->rowCount()) {
+    foreach ($query as $row) {
+        $sinif = $row["sinif_ad"];
+        ?>
+
                                                 <option value="<?php echo $sinif ?>">
                                                     <?php echo $row["sinif_ad"]; ?> </option>
                                                 <?php
-                                                    }
-                                                }?>
+}
+}?>
                                             </select>
 
                                         </div>
@@ -61,48 +61,48 @@
 
 
                                 </form>
-                                <?php 
-                                if(isset($_POST['listele'])){
+                                <?php
+                    if (isset($_POST['listele'])) {
 
-                                    $Sor = $db->prepare("SELECT * from yoklama");
-                                            $Sor->execute();
+                        $Sor = $db->prepare("SELECT * from yoklama");
+                        $Sor->execute();
+                        while ($Cek = $Sor->fetch(PDO::FETCH_ASSOC)){
+                            if ($Cek['sinif_adi'] == $_POST['sinif']) {
 
-                                            while ($Cek = $Sor->fetch(PDO::FETCH_ASSOC)) {
-                                                if($Cek['sinif_adi']==$_POST['sinif']){
-                                                ?>
-                                    
+                            echo"
                                 <br>
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <table class='table table-bordered' id='dataTable' width='100%' cellspacing='0'>
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>SINIF</th>
                                             <th>ÖĞRENCİ NO</th>
                                             <th>İSİM</th>
-                                            <th>TARİH</th> 
-                                            
+                                            <th>TARİH</th>
+
 
                                         </tr>
                                     </thead>
 
-                                    <tbody>
-                                        
-                                            
+                                    <tbody>";
+                                    
+                                        echo"      
                                         <tr>
-                                            <td><?php echo $Cek['id'] ?></td>
-                                            <td><?php echo $Cek['sinif_adi'] ?></td>
-                                            <td><?php echo $Cek['ogr_no'] ?></td>
-                                            <td><?php echo $Cek['isim'] ?></td>
-                                            <td><?php echo $Cek['tarih'] ?></td>
-                                            
+
+                                            <td> ".$Cek['id']."</td>
+                                            <td>". $Cek['sinif_adi']." </td>
+                                            <td> ".$Cek['ogr_no']." </td>
+                                            <td> ".$Cek['isim']." </td>
+                                            <td> ".$Cek['tarih'] ."</td>
+
+
 
                                         </tr>
-                                        <?php }?>
-                                    </tbody>
-                                </table>
 
-                                <?php }}?>
-                                
+                                    </tbody>
+                                </table>";
+
+                                 }}}?>
                             </div>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
     </a>
 
     <!-- Logout Modal-->
-    
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
